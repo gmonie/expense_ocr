@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/expenses")
@@ -25,5 +26,13 @@ public class ExpenseController {
     @GetMapping
     public List<ExpenseResponse> findAll() {
         return expenseService.findAll();
+    }
+
+    @PutMapping("/{id}")
+    public ExpenseResponse update(
+        @PathVariable UUID id,
+        @RequestBody ExpenseRequest request
+    ) {
+        return expenseService.update(id, request);
     }
 }

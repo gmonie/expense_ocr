@@ -71,4 +71,25 @@ public class ExpenseServiceImpl implements ExpenseService {
         }
         expenseRepository.deleteById(id);
     }
+
+    @Override
+    public ExpenseResponse update(UUID id, ExpenseRequest request) {
+        Expense expense = expenseRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Expense not found with id: " + id));
+
+        expense.setStore(request.store());
+        expense.setAmount(request.amount());
+        expense.setPurchaseDate(request.purchaseDate());
+        expense.setCategory(request.category());
+
+        Expense updatedExpense = expenseRepository.save(expense);
+
+        return new ExpenseResponse(
+            updatedExpense.getId(),
+            updatedExpense.getStore(),
+            updatedExpense.getAmount(),
+            updatedExpense.getPurchaseDate(),
+            updatedExpense.getCategory()
+        );
+    }
 }
