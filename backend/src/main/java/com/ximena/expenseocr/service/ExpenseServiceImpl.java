@@ -2,7 +2,8 @@ package com.ximena.expenseocr.service;
 
 import com.ximena.expenseocr.dto.ExpenseRequest;
 import com.ximena.expenseocr.dto.ExpenseResponse;
-import com.ximena.expenseocr.entity.Expense;    
+import com.ximena.expenseocr.entity.Expense;
+import com.ximena.expenseocr.exception.ExpenseNotFoundException;
 import com.ximena.expenseocr.repository.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public ExpenseResponse findById(UUID id){
-        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new RuntimeException("Expense not found with id: " + id));
+        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ExpenseNotFoundException(id));
 
         return new ExpenseResponse(
             expense.getId(),
@@ -66,10 +67,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override 
     public  void delete(UUID id) {
-        if (!expenseRepository.existsById(id)) {
-            throw new RuntimeException("Expense not found with id: " + id);
-        }
-        expenseRepository.deleteById(id);
+       Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ExpenseNotFoundException(id)); 
+       
+        expenseRepository.delete(expense);
     }
 
     @Override
