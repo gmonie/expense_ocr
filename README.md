@@ -392,52 +392,9 @@ test: add expense service unit tests
 ### Crear entidad
 
 ```bash
-git commit -m "feat: create expense entity"
+git commit -m "feat(Expense.java): create expense entity"
 ```
 
-### Crear repositorio
-
-```bash
-git commit -m "feat: add expense repository"
-```
-
-### Implementar servicio
-
-```bash
-git commit -m "feat: implement expense service"
-```
-
-### Crear controlador
-
-```bash
-git commit -m "feat: add expense controller"
-```
-
-### Manejo global de excepciones
-
-```bash
-git commit -m "feat: add global exception handling"
-```
-
-### Actualizar documentación
-
-```bash
-git commit -m "docs: add project setup instructions"
-```
-
-### Corregir bug
-
-```bash
-git commit -m "fix: return 404 when expense is not found"
-```
-
-### Refactorizar código
-
-```bash
-git commit -m "refactor: extract expense mapping logic"
-```
-
----
 
 # Próximo objetivo
 
