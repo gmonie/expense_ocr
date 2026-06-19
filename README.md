@@ -362,11 +362,11 @@ Este proyecto utiliza el estándar **Conventional Commits**, ampliamente adoptad
 ### Ejemplos
 
 ```text
-feat: add expense creation endpoint
-fix: handle expense not found exception
-docs: update README installation guide
-refactor: simplify expense mapping logic
-test: add expense service unit tests
+Feat: Añadir un punto final para la creación de gastos
+Fix: Gestionar la excepción de gasto no encontrado
+Docs: Actualizar la guía de instalación del archivo README
+Refactor: Simplificar la lógica de mapeo de gastos
+Test: Añadir pruebas unitarias al servicio de gastos
 ```
 
 ---
@@ -392,7 +392,7 @@ test: add expense service unit tests
 ### Crear entidad
 
 ```bash
-git commit -m "feat(Expense.java): create expense entity"
+git commit -m "feat(Expense.java): crea entidad expense."
 ```
 
 
