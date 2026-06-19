@@ -5,6 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * Clase que maneja las excepciones globales de la aplicación.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ExpenseNotFoundException.class)

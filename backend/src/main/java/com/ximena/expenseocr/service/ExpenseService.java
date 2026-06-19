@@ -6,6 +6,9 @@ import com.ximena.expenseocr.dto.ExpenseResponse;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Interfaz que define los métodos del servicio de gastos. 
+ */
 public interface ExpenseService {
 
     ExpenseResponse create(ExpenseRequest request);

@@ -13,10 +13,21 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+/**
+ * Clase que implementa la interfaz ExpenseService y 
+ * proporciona la lógica de negocio para manejar los gastos.
+ */
 public class ExpenseServiceImpl implements ExpenseService {
 
     private final ExpenseRepository expenseRepository;
 
+    /**
+     * Método que crea un nuevo gasto.
+     * @param request que es el objeto que contiene los datos
+     * necesarios para crear un nuevo gasto.
+     * @return un objeto ExpenseResponse que contiene los datos 
+     * del gasto creado.
+     */
     @Override
     public ExpenseResponse create(ExpenseRequest request){
 
@@ -40,6 +51,11 @@ public class ExpenseServiceImpl implements ExpenseService {
         
     }
 
+    /**
+     * Método que obtiene todos los gastos.
+     * @return una lista de objetos ExpenseResponse 
+     * que contienen los datos.
+     */
     @Override
     public List<ExpenseResponse> findAll() {
 
@@ -52,6 +68,12 @@ public class ExpenseServiceImpl implements ExpenseService {
         )).toList();
     }
 
+    /**
+     * Método que obtiene un gasto por su ID.
+     * @param id que es el ID del gasto a buscar.
+     * @return un objeto ExpenseResponse que contiene 
+     * los datos.
+     */
     @Override
     public ExpenseResponse findById(UUID id){
         Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ExpenseNotFoundException(id));
@@ -65,6 +87,10 @@ public class ExpenseServiceImpl implements ExpenseService {
         );
     }
 
+    /**
+     * Método que elimina un gasto por su ID.
+     * @param id que es el ID del gasto a eliminar.
+     */
     @Override 
     public  void delete(UUID id) {
        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ExpenseNotFoundException(id)); 
@@ -72,6 +98,12 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenseRepository.delete(expense);
     }
 
+    /**
+     * Método que actualiza un gasto existente.
+     * @param id que es el ID del gasto a actualizar.
+     * @param request que es el objeto que contiene los datos.
+     * @return un objeto ExpenseResponse que contiene los datos.
+     */
     @Override
     public ExpenseResponse update(UUID id, ExpenseRequest request) {
         Expense expense = expenseRepository.findById(id)
