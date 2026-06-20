@@ -12,10 +12,10 @@ export default function ExpenseTable({ expenses }: Props) {
 
         <thead className="bg-gray-900">
           <tr>
-            <th className="text-left p-4">Store</th>
-            <th className="text-left p-4">Amount</th>
-            <th className="text-left p-4">Date</th>
-            <th className="text-left p-4">Category</th>
+            <th className="text-left p-4">Tienda</th>
+            <th className="text-left p-4">Monto</th>
+            <th className="text-left p-4">Fecha</th>
+            <th className="text-left p-4">Categoría</th>
           </tr>
         </thead>
 
