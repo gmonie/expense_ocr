@@ -6,23 +6,23 @@ interface Props {
 
 export default function ExpenseTable({ expenses }: Props) {
   return (
-    <table border={1} cellPadding={10}>
+    <table border={5} cellPadding={15} cellSpacing={5} style={{ borderCollapse: 'separate' }}>
       <thead>
         <tr>
-          <th>Store</th>
-          <th>Amount</th>
-          <th>Date</th>
-          <th>Category</th>
+          <th style={{ padding: '15px 20px' }}>Store</th>
+          <th style={{ padding: '15px 20px' }}>Amount</th>
+          <th style={{ padding: '15px 20px' }}>Date</th>
+          <th style={{ padding: '15px 20px' }}>Category</th>
         </tr>
       </thead>
 
       <tbody>
         {expenses.map((expense) => (
-          <tr key={expense.id}>
-            <td>{expense.store}</td>
-            <td>${expense.amount}</td>
-            <td>{expense.purchaseDate}</td>
-            <td>{expense.category}</td>
+          <tr key={expense.id} style={{ marginBottom: '15px' }}>
+            <td style={{ padding: '20px 25px' }}>{expense.store}</td>
+            <td style={{ padding: '20px 25px' }}>${expense.amount}</td>
+            <td style={{ padding: '20px 25px' }}>{expense.purchaseDate}</td>
+            <td style={{ padding: '20px 25px' }}>{expense.category}</td>
           </tr>
         ))}
       </tbody>
