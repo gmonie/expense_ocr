@@ -6,26 +6,48 @@ interface Props {
 
 export default function ExpenseTable({ expenses }: Props) {
   return (
-    <table border={5} cellPadding={15} cellSpacing={5} style={{ borderCollapse: 'separate' }}>
-      <thead>
-        <tr>
-          <th style={{ padding: '15px 20px' }}>Store</th>
-          <th style={{ padding: '15px 20px' }}>Amount</th>
-          <th style={{ padding: '15px 20px' }}>Date</th>
-          <th style={{ padding: '15px 20px' }}>Category</th>
-        </tr>
-      </thead>
+    <div className="text-white rounded-xl shadow-md overflow-hidden">
 
-      <tbody>
-        {expenses.map((expense) => (
-          <tr key={expense.id} style={{ marginBottom: '15px' }}>
-            <td style={{ padding: '20px 25px' }}>{expense.store}</td>
-            <td style={{ padding: '20px 25px' }}>${expense.amount}</td>
-            <td style={{ padding: '20px 25px' }}>{expense.purchaseDate}</td>
-            <td style={{ padding: '20px 25px' }}>{expense.category}</td>
+      <table className="w-full">
+
+        <thead className="bg-gray-900">
+          <tr>
+            <th className="text-left p-4">Store</th>
+            <th className="text-left p-4">Amount</th>
+            <th className="text-left p-4">Date</th>
+            <th className="text-left p-4">Category</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {expenses.map((expense) => (
+            <tr
+              key={expense.id}
+              className="bg-gray-400 border-t hover:bg-slate-50 hover:text-gray-700"
+            >
+              <td className="p-4">
+                {expense.store}
+              </td>
+
+              <td className="p-4 font-semibold">
+                {new Intl.NumberFormat("es-MX", {
+                style: "currency",
+                currency: "MXN",
+                }).format(expense.amount)}
+              </td>
+
+              <td className="p-4">
+                {expense.purchaseDate}
+              </td>
+
+              <td className="p-4">
+                {expense.category}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+
+      </table>
+    </div>
   );
 }
