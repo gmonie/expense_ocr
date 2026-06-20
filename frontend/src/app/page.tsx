@@ -1,5 +1,6 @@
 import { getExpenses } from "@/services/expenseService";
 import ExpenseTable from "@/components/ExpenseTable";
+import ExpenseForm from "@/components/ExpenseForm";
 
 
 export default async function Home() {
@@ -8,7 +9,7 @@ export default async function Home() {
   if (expenses.length === 0) {
     return (
       <div className="bg-white rounded-xl shadow p-8 text-center">
-        <p>No expenses registered yet.</p>
+        <p>No tienes gastos registrados aún.</p>
       </div>
     );
   }
@@ -25,11 +26,13 @@ export default async function Home() {
           </h1>
 
           <p className="text-gray-600 mt-2">
-            Manage your expenses and receipts.
+            Administra tus gastos de manera sencilla y eficiente.
           </p>
 
         </div> 
 
+        <ExpenseForm />
+        
         <ExpenseTable expenses={expenses} />
 
       </div>
