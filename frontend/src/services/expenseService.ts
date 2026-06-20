@@ -9,3 +9,24 @@ export async function getExpenses(): Promise<Expense[]> {
     }
     return response.json();
 }
+
+export async function createExpense(data:  {
+    store: string;
+    amount: number;
+    purchaseDate: string;
+    category: string;
+}){
+    const response = await fetch(API_URL, {
+        method: "POST", 
+        headers: {
+            "Content-Type": "application/json",
+        }, 
+        body: JSON.stringify(data),
+    }); 
+
+    if (!response.ok) {
+        throw new Error("Failed to create expense");
+    }
+    
+    return response.json();
+}
