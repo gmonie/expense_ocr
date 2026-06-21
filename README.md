@@ -1,117 +1,93 @@
 # Expense OCR
 
-Aplicación web para digitalizar tickets de compra utilizando OCR (Detección de texto en imágenes), almacenar gastos en PostgreSQL y visualizar/gestionar la información mediante una interfaz web.
+Aplicación web para gestión de gastos y procesamiento automático de tickets mediante OCR.
+
+## Descripción
+
+Expense OCR es un proyecto full-stack cuyo objetivo es permitir a los usuarios registrar, visualizar y administrar gastos de manera sencilla. A futuro, la aplicación permitirá cargar fotografías de tickets para extraer automáticamente información utilizando OCR.
+
+## Estado actual del proyecto
+
+### Backend (Spring Boot)
+
+* [x] Configuración inicial de Spring Boot
+* [x] Conexión a PostgreSQL
+* [x] Implementación de arquitectura por capas
+
+  * Controller
+  * Service
+  * Repository
+* [x] CRUD completo de gastos
+* [x] DTOs (Request / Response)
+* [x] Manejo global de excepciones
+* [x] Configuración de CORS
+* [x] Persistencia con Spring Data JPA
+
+### Frontend (Next.js)
+
+* [x] Configuración inicial de Next.js
+* [x] Integración con Spring Boot API
+* [x] Consumo de endpoint GET /api/expenses
+* [x] Tabla de visualización de gastos
+* [x] Formulario de creación de gastos
+* [x] Tipado con TypeScript
+* [x] Estilos con Tailwind CSS
+
+### Próximas funcionalidades
+
+* [ ] Actualizar gastos desde la interfaz
+* [ ] Eliminar gastos desde la interfaz
+* [ ] Búsqueda y filtrado de gastos
+* [ ] Carga de tickets
+* [ ] Integración con PaddleOCR
+* [ ] Almacenamiento de imágenes en AWS S3
+* [ ] Base de datos en AWS RDS
+* [ ] Autenticación de usuarios
+* [ ] Dashboard de estadísticas
+* [ ] Deploy en producción
 
 ---
 
-# Objetivo del proyecto
-
-Construir una aplicación full-stack que permita:
-
-* Subir imágenes de tickets de compra.
-* Extraer información mediante OCR (PaddleOCR).
-* Almacenar gastos en PostgreSQL.
-* Gestionar gastos mediante una API REST.
-* Desplegar servicios utilizando AWS.
-* Visualizar gastos desde una interfaz web.
-
----
-
-# Arquitectura actual
+## Arquitectura
 
 ```text
-Frontend (Next.js)
-        │
-        ▼
-Spring Boot REST API
-        │
-        ▼
-PostgreSQL
+
+Next.js/Frontend -- HTTP --> Spring Boot/Backend -- JPA --> PostgreSQL/Database
+
 ```
 
 ---
 
-# Stack tecnológico
+## Endpoints disponibles
 
-## Backend
+### Crear gasto
 
-* Java 21
-* Spring Boot 3
-* Spring Web
-* Spring Data JPA
-* PostgreSQL
-* Maven
-* Lombok
-
-## Base de datos
-
-* PostgreSQL
-
-## Frontend (próximamente)
-
-* Next.js
-* React
-* TypeScript
-
-## OCR (próximamente)
-
-* PaddleOCR
-
-## Cloud (próximamente)
-
-* AWS S3
-* AWS RDS
-* AWS EC2 / ECS
-
----
-
-# Funcionalidades implementadas
-
-## Gestión de gastos
-
-Entidad principal:
-
-```java
-Expense
+```http
+POST /api/expenses
 ```
 
-### Campos
+Body:
 
-| Campo        | Tipo       |
-| ------------ | ---------- |
-| id           | UUID       |
-| store        | String     |
-| amount       | BigDecimal |
-| purchaseDate | LocalDate  |
-| category     | String     |
+```json
+{
+  "store": "Walmart",
+  "amount": 350.75,
+  "purchaseDate": "2026-06-12",
+  "category": "Groceries"
+}
+```
 
 ---
 
-# API REST
-
-## Obtener todos los gastos
+### Obtener todos los gastos
 
 ```http
 GET /api/expenses
 ```
 
-### Respuesta
-
-```json
-[
-  {
-    "id": "uuid",
-    "store": "OXXO",
-    "amount": 120.50,
-    "purchaseDate": "2026-06-04",
-    "category": "Food"
-  }
-]
-```
-
 ---
 
-## Obtener gasto por ID
+### Obtener gasto por ID
 
 ```http
 GET /api/expenses/{id}
@@ -119,26 +95,15 @@ GET /api/expenses/{id}
 
 ---
 
-## Crear gasto
+### Actualizar gasto
 
 ```http
-POST /api/expenses
-```
-
-### Body
-
-```json
-{
-  "store": "OXXO",
-  "amount": 120.50,
-  "purchaseDate": "2026-06-04",
-  "category": "Food"
-}
+PUT /api/expenses/{id}
 ```
 
 ---
 
-## Eliminar gasto
+### Eliminar gasto
 
 ```http
 DELETE /api/expenses/{id}
@@ -146,262 +111,155 @@ DELETE /api/expenses/{id}
 
 ---
 
-# Manejo de errores
-
-## ExpenseNotFoundException
-
-Se lanza cuando un gasto solicitado no existe.
-
-### Ejemplo
-
-```http
-GET /api/expenses/00000000-0000-0000-0000-000000000000
-```
-
-### Respuesta
-
-```http
-404 Not Found
-```
+## Estructura del proyecto
 
 ```text
-Expense not found with id: 00000000-0000-0000-0000-000000000000
+expense-ocr/
+│
+├── backend/
+│   ├── controller/
+│   ├── service/
+│   ├── repository/
+│   ├── entity/
+│   ├── dto/
+│   ├── exception/
+│   └── config/
+│
+└── frontend/
+    └── src/
+        ├── app/
+        ├── components/
+        ├── services/
+        └── types/
 ```
 
 ---
 
-## GlobalExceptionHandler
+## Tecnologías utilizadas
 
-Las excepciones se gestionan centralizadamente mediante:
-
-```java
-@RestControllerAdvice
-```
-
----
-
-# Estructura actual del backend
-
-```text
-src/main/java/com/ximena/expenseocr
-
-├── controller
-│   └── ExpenseController
-│
-├── dto
-│   ├── ExpenseRequest
-│   └── ExpenseResponse
-│
-├── entity
-│   └── Expense
-│
-├── exception
-│   ├── ExpenseNotFoundException
-│   └── GlobalExceptionHandler
-│
-├── repository
-│   └── ExpenseRepository
-│
-├── service
-│   ├── ExpenseService
-│   └── ExpenseServiceImpl
-│
-└── ExpenseOcrApplication
-```
-
----
-
-# Cómo ejecutar el proyecto
-
-## Requisitos
+### Backend
 
 * Java 21
-* Maven 3.9+
-* PostgreSQL 16+
+* Spring Boot
+* Spring Data JPA
+* Hibernate
+* PostgreSQL
+* Maven
 
-Verificar instalación:
+### Frontend
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+
+### Herramientas
+
+* Git
+* GitHub
+* Postman
+* IntelliJ IDEA
+
+### Próximamente
+
+* PaddleOCR
+* AWS S3
+* AWS RDS
+* Vercel
+* Render
+
+---
+
+## Convenciones de Commits
+
+Este proyecto utiliza el estándar **Conventional Commits**.
+
+### Nuevas funcionalidades
 
 ```bash
-java --version
-mvn --version
-psql --version
+git commit -m "feat(archivo): Se agregó el endpoint para actualizar el gasto."
 ```
 
----
-
-## Configuración de PostgreSQL
-
-Crear la base de datos:
-
-```sql
-CREATE DATABASE expense_ocr;
-```
-
----
-
-## Configuración de Spring Boot
-
-Archivo:
-
-```text
-src/main/resources/application.properties
-```
-
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/expense_ocr
-spring.datasource.username=postgres
-spring.datasource.password=tu_password
-
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-```
-
----
-
-## Ejecutar backend
+### Corrección de errores
 
 ```bash
-./mvnw spring-boot:run
-```
+git commit -m "fix(archivo): Regresa 404 cuando el gasto no es encontrado."
+``` 
+Regresa 404 cuando el gasto no es encontrado
 
-o
+### Documentación
 
 ```bash
-mvn spring-boot:run
+git commit -m "docs(Archivo): Actualización del README."
+```
+Actualización del README
+### Refactorización
+
+```bash
+git commit -m "refactor(Archivo): Refactorización del mapping del servicio expense."
+```
+
+### Pruebas
+
+```bash
+git commit -m "test(Archivo): Se agregó el test para el controlled de expense."
 ```
 
 ---
 
-# Pruebas rápidas con curl
+## Objetivos de aprendizaje
 
-## Crear gasto
+Este proyecto tiene como propósito practicar:
 
-```bash
-curl -X POST http://localhost:8080/api/expenses \
--H "Content-Type: application/json" \
--d '{
-  "store":"OXXO",
-  "amount":120.50,
-  "purchaseDate":"2026-06-04",
-  "category":"Food"
-}'
-```
-
----
-
-## Obtener todos los gastos
-
-```bash
-curl http://localhost:8080/api/expenses
-```
+* Desarrollo Backend con Spring Boot
+* APIs REST
+* PostgreSQL y JPA/Hibernate
+* Desarrollo Frontend con Next.js
+* Arquitectura por capas
+* Integración Frontend ↔ Backend
+* OCR con PaddleOCR
+* Servicios Cloud en AWS
+* Buenas prácticas de Git y documentación técnica
 
 ---
 
-## Obtener gasto por ID
+## Roadmap
 
-```bash
-curl http://localhost:8080/api/expenses/{id}
-```
+### Fase 1 — Backend CRUD ✅
 
----
+* [x] Entidad Expense
+* [x] CRUD completo
+* [x] PostgreSQL
+* [x] Manejo de excepciones
 
-## Eliminar gasto
+### Fase 2 — Frontend MVP 🚧
 
-```bash
-curl -X DELETE http://localhost:8080/api/expenses/{id}
-```
+* [x] Conexión Next.js ↔ Spring Boot
+* [x] Tabla de gastos
+* [x] Formulario de creación
+* [ ] Edición de gastos
+* [ ] Eliminación de gastos
 
----
-
-# Roadmap
-
-## Fase 1 - Backend CRUD
-
-* [x] Crear gastos
-* [x] Obtener gastos
-* [x] Obtener gasto por ID
-* [x] Eliminar gastos
-* [ ] Actualizar gastos
-
-## Fase 2 - Frontend
-
-* [ ] Listado de gastos
-* [ ] Formulario de creación
-* [ ] Consumo de API REST
-
-## Fase 3 - OCR
+### Fase 3 — OCR
 
 * [ ] Subida de tickets
-* [ ] Integración con PaddleOCR
+* [ ] Procesamiento con PaddleOCR
 * [ ] Extracción automática de datos
 
-## Fase 4 - AWS
+### Fase 4 — AWS
 
-* [ ] AWS S3 para imágenes
-* [ ] AWS RDS PostgreSQL
-* [ ] Despliegue backend
-* [ ] Despliegue frontend
+* [ ] Almacenamiento en S3
+* [ ] PostgreSQL en RDS
+* [ ] Deploy del backend
+* [ ] Deploy del frontend
 
----
+### Fase 5 — Producción
 
-# Convención de commits
+* [ ] Autenticación
+* [ ] Dashboard
+* [ ] Reportes
+* [ ] Métricas de gastos
+* [ ] Optimización y monitoreo
 
-Este proyecto utiliza el estándar **Conventional Commits**, ampliamente adoptado en la industria para:
-
-* Mantener un historial consistente.
-* Automatizar changelogs.
-* Facilitar versionado semántico.
-* Mejorar procesos CI/CD.
-
-## Formato
-
-```text
-<tipo>: <descripción>
 ```
-
-### Ejemplos
-
-```text
-Feat: Añadir un punto final para la creación de gastos
-Fix: Gestionar la excepción de gasto no encontrado
-Docs: Actualizar la guía de instalación del archivo README
-Refactor: Simplificar la lógica de mapeo de gastos
-Test: Añadir pruebas unitarias al servicio de gastos
 ```
-
----
-
-## Tipos de commit
-
-| Tipo     | Descripción                  |
-| -------- | ---------------------------- |
-| feat     | Nueva funcionalidad          |
-| fix      | Corrección de errores        |
-| docs     | Documentación                |
-| refactor | Refactorización              |
-| test     | Pruebas                      |
-| style    | Formato de código            |
-| chore    | Tareas de mantenimiento      |
-| build    | Dependencias o configuración |
-| ci       | Integración continua         |
-
----
-
-## Ejemplos utilizados en este proyecto
-
-### Crear entidad
-
-```bash
-git commit -m "feat(Expense.java): crea entidad expense."
-```
-
-
-# Próximo objetivo
-
-Completar el CRUD implementando:
-
-```http
-PUT /api/expenses/{id}
-```
-
-y posteriormente integrar el frontend con Next.js para visualizar y administrar gastos desde la interfaz web.
