@@ -68,9 +68,9 @@ export default function ExpenseTable({ expenses }: Props) {
               <td className="p-4">
                 <button 
                   onClick={() => handleDelete(expense.id)}
-                  className="px-3 py-1 rounded bg-gray-400 text-white"
+                  className="px-3 py-1 rounded bg-red-500 text-white"
                 >
-                  Delete
+                  Eliminar
                 </button>
               </td>
             </tr>
