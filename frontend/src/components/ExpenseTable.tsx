@@ -1,11 +1,30 @@
 "use client";
 import { Expense } from "@/types/expense";
+import { deleteExpense } from "@/services/expenseService";
+import { useRouter } from "next/navigation"
 
 interface Props {
   expenses: Expense[];
 }
 
 export default function ExpenseTable({ expenses }: Props) {
+  const router = useRouter();
+  async function handleDelete(id: string){
+    const confirmed = confirm(
+      "¿Estás seguro de que deseas eliminar este gasto? Esta acción no se puede deshacer."
+    );
+
+    if(!confirmed) return; 
+
+    try{
+      await deleteExpense(id);
+
+      router.refresh();
+    } catch (error){
+      console.error(error); 
+      alert("Ocurrió un error al eliminar el gasto. Por favor, inténtalo de nuevo más tarde.");
+    }
+  }
   return (
     <div className="text-white rounded-xl shadow-md overflow-hidden">
 
@@ -17,6 +36,7 @@ export default function ExpenseTable({ expenses }: Props) {
             <th className="text-left p-4">Monto</th>
             <th className="text-left p-4">Fecha</th>
             <th className="text-left p-4">Categoría</th>
+            <th className="text-left p-4">Acciones</th>
           </tr>
         </thead>
 
@@ -43,6 +63,15 @@ export default function ExpenseTable({ expenses }: Props) {
 
               <td className="p-4">
                 {expense.category}
+              </td>
+
+              <td className="p-4">
+                <button 
+                  onClick={() => handleDelete(expense.id)}
+                  className="px-3 py-1 rounded bg-gray-400 text-white"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
