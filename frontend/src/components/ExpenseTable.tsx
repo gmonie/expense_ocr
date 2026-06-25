@@ -1,3 +1,4 @@
+"use client";
 import { Expense } from "@/types/expense";
 
 interface Props {
