@@ -30,3 +30,16 @@ export async function createExpense(data:  {
     
     return response.json();
 }
+
+export async function deleteExpense(id: string): Promise<void> {
+    const response = await fetch(
+        `http://localhost:8080/api/expenses/${id}`, 
+        {
+            method: "DELETE",
+        }
+    );
+
+    if(!response.ok) {
+        throw new Error("Surgió un error al eliminar el gasto.");
+    }
+}
