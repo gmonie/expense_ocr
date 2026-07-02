@@ -5,6 +5,9 @@ import { createExpense } from "@/services/expenseService";
 import { useRouter } from "next/navigation";
 
 export default function ExpenseForm() {
+
+  const router = useRouter();
+
   const [store, setStore] = useState("");
   const [amount, setAmount] = useState("");
   const [purchaseDate, setPurchaseDate] = useState("");
@@ -30,8 +33,9 @@ export default function ExpenseForm() {
       setPurchaseDate("");
       setCategory("");
 
-      const router = useRouter();
+      
       router.refresh();
+      
     } catch (error) {
       console.error(error);
       alert("Ha ocurrido un error al crear el gasto.");
