@@ -1,30 +1,65 @@
 "use client";
 
 import { useState } from "react";
-import { createExpense } from "@/services/expenseService";
+import { createExpense, updateExpense } from "@/services/expenseService";
 import { useRouter } from "next/navigation";
 
-export default function ExpenseForm() {
+interface ExpenseFormProps{
+  initialData?: {
+    id?: string; 
+    store: string; 
+    amount: number;
+    purchaseDate: string;
+    category: string;
+  }; 
+  onSuccess?: () => void;
+}
+
+export default function ExpenseForm({
+  initialData,
+  onSuccess,
+}: ExpenseFormProps) {
 
   const router = useRouter();
 
-  const [store, setStore] = useState("");
-  const [amount, setAmount] = useState("");
-  const [purchaseDate, setPurchaseDate] = useState("");
-  const [category, setCategory] = useState("");
+  const [store, setStore] = useState(
+    initialData?.store ?? ""
+  ); 
+
+  const [amount, setAmount] = useState(
+    initialData?.amount?.toString() ?? ""
+  )
+
+  const [purchaseDate, setPurchaseDate] = useState(
+    initialData?.purchaseDate ?? ""
+  );
+
+  const [category, setCategory] = useState(
+    initialData?.category ?? ""
+  );
+
 
   async function handleSubmit(
     e: React.FormEvent<HTMLFormElement>
-  ) {
+  ){ 
     e.preventDefault();
 
     try {
-      await createExpense({
-        store,
-        amount: Number(amount),
-        purchaseDate,
-        category,
-      });
+      if (initialData?.id) {
+        await updateExpense(initialData.id, {
+          store,
+          amount: Number(amount),
+          purchaseDate,
+          category,
+        });
+      } else {
+        await createExpense({
+          store,
+          amount: Number(amount),
+          purchaseDate,
+          category,
+        });
+      }
 
       alert("¡Se ha creado un nuevo gasto!");
 
@@ -98,7 +133,9 @@ export default function ExpenseForm() {
         type="submit"
         className="mt-4 px-4 py-2 rounded bg-gray-400 text-white hover:bg-slate-50 hover:text-gray-700"
       >
-        Crear
+        {initialData?.id
+          ? "Update Expense"
+          : "Create Expense"}
       </button>
     </form>
   );
