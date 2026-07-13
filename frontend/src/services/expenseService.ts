@@ -43,3 +43,29 @@ export async function deleteExpense(id: string): Promise<void> {
         throw new Error("Surgió un error al eliminar el gasto.");
     }
 }
+
+export async function updateExpense(
+    id: string,
+    data: {
+        store: string; 
+        amount: number; 
+        purchaseDate: string; 
+        category: string; 
+    }
+){ 
+    const response = await fetch('http://localhost:8080/api/expenses/${id}',
+        { 
+            method: "PUT", 
+            headers: {
+                "content-Type": "aplication/json",
+            }, 
+            body: JSON.stringify(data),
+        }
+    ); 
+
+    if(!response.ok) {
+        throw new Error("Surgió un error al actualizar el gasto.");
+    }
+
+    return response.json();
+}
