@@ -53,7 +53,7 @@ export async function updateExpense(
         category: string; 
     }
 ){ 
-    const response = await fetch('http://localhost:8080/api/expenses/${id}',
+    const response = await fetch(`http://localhost:8080/api/expenses/${id}`,
         { 
             method: "PUT", 
             headers: {
@@ -71,7 +71,7 @@ export async function updateExpense(
 }
 
 export async function getExpenseById(id: string,){ 
-    const response = await fetch('http://localhost:8080/api/expenses/${id}'); 
+    const response = await fetch(`http://localhost:8080/api/expenses/${id}`); 
 
     if(!response.ok) {
         throw new Error("No existe el gasto.");
