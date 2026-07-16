@@ -2,6 +2,7 @@
 import { Expense } from "@/types/expense";
 import { deleteExpense } from "@/services/expenseService";
 import { useRouter } from "next/navigation"
+import Link from "next/link";
 
 interface Props {
   expenses: Expense[];
@@ -65,18 +66,22 @@ export default function ExpenseTable({ expenses }: Props) {
                 {expense.category}
               </td>
 
-              <td> 
-                <button className="px-3 py-1 text-gray-700"
-                >
-                  Editar
-                </button>
+              <td>  
+                <div className="flex gap-2">
+                  <Link
+                    href={`/expenses/${expense.id}`}
+                    className="px-3 py-1 rounded bg-blue-600 text-white"
+                  >
+                    Edit
+                  </Link>
 
-                <button 
-                  onClick={() => handleDelete(expense.id)}
-                  className="px-3 py-1 rounded bg-red-500 text-white"
-                >
-                  Eliminar
-                </button>
+                  <button 
+                    onClick={() => handleDelete(expense.id)}
+                    className="px-3 py-1 rounded bg-red-500 text-white"
+                  >
+                    Eliminar
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
