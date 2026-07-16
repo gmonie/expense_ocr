@@ -11,13 +11,13 @@ export default async function EditExpensePage({params,}: {params: Promise<{ id: 
   
         <div className="max-w-2xl mx-auto">
   
-          <h1 className="text-3xl font-bold mb-6">
+        <h1 className="text-3xl font-bold mb-6">
             Edit Expense
-          </h1>
+        </h1>
   
-          <ExpenseForm
+        <ExpenseForm
             initialData={expense}
-          />
+        />
   
         </div>
   
